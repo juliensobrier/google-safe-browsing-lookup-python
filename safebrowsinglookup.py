@@ -12,6 +12,8 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+#
+# modified by Alexander Bikadorov, 2012 (abiku@cs.tu-berlin.de)
 
 """ Version 0.1.0
 
@@ -72,10 +74,6 @@ class SafebrowsinglookupClient(object):
             response = ''
             try:
                 response = urllib2.urlopen(url, body)
-
-                self.__debug("At least 1 match\n")
-                results.update( self.__parse(response.read().strip(), inputs) )
-
             except Exception, e:
                 if hasattr(e, 'code') and e.code == httplib.NO_CONTENT: # 204
                     self.__debug("No match\n")
@@ -101,8 +99,15 @@ class SafebrowsinglookupClient(object):
                     self.__error("Unexpected server response")
                     self.__debug(e)
                     results.update( self.__errors(inputs) )
-
-
+            else:
+                response_read = response.read()
+                if not response_read:
+                    self.__debug("No match\n")
+                    results.update( self.__ok(inputs) )
+                else:
+                    self.__debug("At least 1 match\n")
+                    results.update( self.__parse(response_read.strip(), inputs) )           
+            
             count = count + 1
 
         return results
