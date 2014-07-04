@@ -23,11 +23,9 @@ If you need to check less than 10,000 URLs a day against the Google Safe Browsin
 
 You need to get an API key from Google at http://code.google.com/apis/safebrowsing/key_signup.html """
 
-
-import urllib
-import urllib2
+import urllib.request
 import re
-import httplib
+import http.client
 
 
 class SafebrowsinglookupClient(object):
@@ -62,10 +60,10 @@ class SafebrowsinglookupClient(object):
         count = 0
         while count * 500 < len(urls):
             inputs = urls[count * 500 : (count + 1) * 500]
-            body = len(inputs)
+            body = str(len(inputs))
 
             for url in inputs:
-                body = str(body) + "\n" + self.__canonical(str(url))
+                body += "\n" + self.__canonical(url)
 
             self.__debug("BODY:\n" + body + "\n\n")
             url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&apikey=%s&appver=%s&pver=%s' % ('python', self.key, self.version, self.api_version)
@@ -73,25 +71,25 @@ class SafebrowsinglookupClient(object):
 
             response = ''
             try:
-                response = urllib2.urlopen(url, body)
-            except Exception, e:
-                if hasattr(e, 'code') and e.code == httplib.NO_CONTENT: # 204
+                response = urllib.request.urlopen(url, body.encode('utf8'))
+            except Exception as e:
+                if hasattr(e, 'code') and e.code == http.client.NO_CONTENT: # 204
                     self.__debug("No match\n")
                     results.update( self.__ok(inputs) )
 
-                elif hasattr(e, 'code') and e.code == httplib.BAD_REQUEST: # 400
+                elif hasattr(e, 'code') and e.code == http.client.BAD_REQUEST: # 400
                     self.__error("Invalid request")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == httplib.UNAUTHORIZED: # 401
+                elif hasattr(e, 'code') and e.code == http.client.UNAUTHORIZED: # 401
                     self.__error("Invalid API key")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == httplib.FORBIDDEN: # 403 (should be 401)
+                elif hasattr(e, 'code') and e.code == http.client.FORBIDDEN: # 403 (should be 401)
                     self.__error("Invalid API key")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == httplib.SERVICE_UNAVAILABLE: # 503
+                elif hasattr(e, 'code') and e.code == http.client.SERVICE_UNAVAILABLE: # 503
                     self.__error("Server error, client may have sent too many requests")
                     results.update( self.__errors(inputs) )
 
@@ -100,7 +98,7 @@ class SafebrowsinglookupClient(object):
                     self.__debug(e)
                     results.update( self.__errors(inputs) )
             else:
-                response_read = response.read()
+                response_read = response.read().decode('utf8')
                 if not response_read:
                     self.__debug("No match\n")
                     results.update( self.__ok(inputs) )
@@ -167,10 +165,10 @@ class SafebrowsinglookupClient(object):
 
     def __debug(self, message=''):
         if self.debug == 1:
-            print message
+            print(message)
 
 
     def __error(self, message=''):
         if self.debug == 1 or self.error == 1:
-            print message + "\n"
+            print(message + "\n")
             self.last_error = message
