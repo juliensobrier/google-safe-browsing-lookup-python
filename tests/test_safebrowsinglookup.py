@@ -31,9 +31,9 @@ class SafebrowsinglookupClient_ParseTestCase(unittest.TestCase):
         client = SafebrowsinglookupClient('AAAAAAAAaaAAAaAAAaA0a0AaaAAAAAAa0AaAAAaAa0aaaAaAa0Aa0AaaaA')
         results = client.lookup(*['http://www.google.com/', 'http://www.google.org/'])
 
-        self.assertEquals(2, len(results))
-        self.assertEquals('error', results['http://www.google.com/'])
-        self.assertEquals('error', results['http://www.google.org/'])
+        self.assertEqual(2, len(results))
+        self.assertEqual('error', results['http://www.google.com/'])
+        self.assertEqual('error', results['http://www.google.org/'])
 
 
     def test_no_match(self):
@@ -42,9 +42,9 @@ class SafebrowsinglookupClient_ParseTestCase(unittest.TestCase):
 
         results = self.client.lookup(*['http://www.google.com/', 'http://www.google.org/'])
 
-        self.assertEquals(2, len(results))
-        self.assertEquals('ok', results['http://www.google.com/'])
-        self.assertEquals('ok', results['http://www.google.org/'])
+        self.assertEqual(2, len(results))
+        self.assertEqual('ok', results['http://www.google.com/'])
+        self.assertEqual('ok', results['http://www.google.org/'])
 
 
     def test_match(self):
@@ -53,8 +53,8 @@ class SafebrowsinglookupClient_ParseTestCase(unittest.TestCase):
 
         results = self.client.lookup('http://www.gumblar.cn/')
 
-        self.assertEquals(1, len(results))
-        self.assertEquals('malware', results['http://www.gumblar.cn/'])
+        self.assertEqual(1, len(results))
+        self.assertEqual('malware', results['http://www.gumblar.cn/'])
 
 
     def test_match_many(self):
@@ -67,10 +67,10 @@ class SafebrowsinglookupClient_ParseTestCase(unittest.TestCase):
 
         results = self.client.lookup(*urls)
 
-        self.assertEquals(len(urls), len(results))
-        self.assertEquals('malware', results['http://www.gumblar.cn/1'])
-        self.assertEquals('malware', results['http://www.gumblar.cn/500'])
-        self.assertEquals('malware', results['http://www.gumblar.cn/599'])
+        self.assertEqual(len(urls), len(results))
+        self.assertEqual('malware', results['http://www.gumblar.cn/1'])
+        self.assertEqual('malware', results['http://www.gumblar.cn/500'])
+        self.assertEqual('malware', results['http://www.gumblar.cn/599'])
 
 
 

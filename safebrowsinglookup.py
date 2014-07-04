@@ -23,9 +23,13 @@ If you need to check less than 10,000 URLs a day against the Google Safe Browsin
 
 You need to get an API key from Google at http://code.google.com/apis/safebrowsing/key_signup.html """
 
-import urllib.request
+try:
+    from urllib.request import urlopen
+    from http.client import NO_CONTENT, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN, SERVICE_UNAVAILABLE
+except ImportError:
+    from urllib2 import urlopen
+    from httplib import NO_CONTENT, BAD_REQUEST, UNAUTHORIZED, FORBIDDEN, SERVICE_UNAVAILABLE
 import re
-import http.client
 
 
 class SafebrowsinglookupClient(object):
@@ -71,25 +75,25 @@ class SafebrowsinglookupClient(object):
 
             response = ''
             try:
-                response = urllib.request.urlopen(url, body.encode('utf8'))
+                response = urlopen(url, body.encode('utf8'))
             except Exception as e:
-                if hasattr(e, 'code') and e.code == http.client.NO_CONTENT: # 204
+                if hasattr(e, 'code') and e.code == NO_CONTENT: # 204
                     self.__debug("No match\n")
                     results.update( self.__ok(inputs) )
 
-                elif hasattr(e, 'code') and e.code == http.client.BAD_REQUEST: # 400
+                elif hasattr(e, 'code') and e.code == BAD_REQUEST: # 400
                     self.__error("Invalid request")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == http.client.UNAUTHORIZED: # 401
+                elif hasattr(e, 'code') and e.code == UNAUTHORIZED: # 401
                     self.__error("Invalid API key")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == http.client.FORBIDDEN: # 403 (should be 401)
+                elif hasattr(e, 'code') and e.code == FORBIDDEN: # 403 (should be 401)
                     self.__error("Invalid API key")
                     results.update( self.__errors(inputs) )
 
-                elif hasattr(e, 'code') and e.code == http.client.SERVICE_UNAVAILABLE: # 503
+                elif hasattr(e, 'code') and e.code == SERVICE_UNAVAILABLE: # 503
                     self.__error("Server error, client may have sent too many requests")
                     results.update( self.__errors(inputs) )
 
