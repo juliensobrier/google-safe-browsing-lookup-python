@@ -1,4 +1,5 @@
-# Copyright 2011 Julien Sobrier
+# -*- coding: utf-8 -*-
+# Copyright 2015 Julien Sobrier
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -15,7 +16,7 @@
 #
 # modified by Alexander Bikadorov, 2012 (abiku@cs.tu-berlin.de)
 
-""" Version 0.1.0
+""" Version 0.2.0
 
 Google Safe Browsing Lookup library for Python.
 
@@ -43,8 +44,8 @@ class SafebrowsinglookupClient(object):
         self.debug = debug
         self.error = error
         self.last_error = ''
-        self.version = '0.1'
-        self.api_version = '3.0'
+        self.version = '0.2'
+        self.api_version = '3.1'
 
         if self.key == '':
             raise ValueError("Missing API key")
@@ -68,7 +69,7 @@ class SafebrowsinglookupClient(object):
                 body = str(body) + "\n" + self.__canonical(str(url))
 
             self.__debug("BODY:\n" + body + "\n\n")
-            url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&apikey=%s&appver=%s&pver=%s' % ('python', self.key, self.version, self.api_version)
+            url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&key=%s&appver=%s&pver=%s' % ('python', self.key, self.version, self.api_version)
             self.__debug("URL: %s" % (url))
 
             response = ''

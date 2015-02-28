@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 
@@ -10,7 +11,7 @@ requirements = []
 
 setup(
     name='Google Safe Browsing v2 Lookup',
-    version='0.1.0',
+    version='0.2.0',
     py_modules=['safebrowsinglookup'],
     description='Client to interact with the Google Safe Browsing v2 Lookup API',
     long_description=read('README'),

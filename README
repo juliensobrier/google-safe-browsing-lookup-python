@@ -1,11 +1,11 @@
-Google Safe Browsing v2 Lookup version 0.1.0
+Google Safe Browsing v3 Lookup version 0.2.0
 ================================
 
 Google Safe Browsing Lookup library for Python.
 
-If you need to check less than 10,000 URLs a day against the Google Safe Browsing v2 API (http://code.google.com/apis/safebrowsing/), you can use the Lookup API (http://code.google.com/apis/safebrowsing/lookup_guide.html) as a lighter alternative to the more complex API (http://code.google.com/apis/safebrowsing/developers_guide_v2.html).
+If you need to check less than 10,000 URLs a day against the Google Safe Browsing v2 API (https://developers.google.com/safe-browsing/lookup_guide), you can use the Lookup API (https://developers.google.com/safe-browsing/lookup_guide) as a lighter alternative to the more complex API (https://developers.google.com/safe-browsing/developers_guide_v3).
 
-You need to get an API key from Google at http://code.google.com/apis/safebrowsing/key_signup.html
+You need to get an API key from Google at https://code.google.com/apis/console/
 
 You can install the library from PyPI: http://pypi.python.org/pypi/Google%20Safe%20Browsing%20v2%20Lookup/
 
