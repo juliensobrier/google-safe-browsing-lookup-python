@@ -66,7 +66,7 @@ class SafebrowsinglookupClient(object):
             body = len(inputs)
 
             for url in inputs:
-                body = str(body) + "\n" + self.__canonical(str(url))
+                body = str(body) + "\n" + self.__canonical(url.decode('utf-8'))
 
             self.__debug("BODY:\n" + body + "\n\n")
             url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&key=%s&appver=%s&pver=%s' % ('python', self.key, self.version, self.api_version)
@@ -107,8 +107,8 @@ class SafebrowsinglookupClient(object):
                     results.update( self.__ok(inputs) )
                 else:
                     self.__debug("At least 1 match\n")
-                    results.update( self.__parse(response_read.strip(), inputs) )           
-            
+                    results.update( self.__parse(response_read.strip(), inputs) )
+
             count = count + 1
 
         return results
