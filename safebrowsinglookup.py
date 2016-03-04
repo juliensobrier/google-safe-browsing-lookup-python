@@ -20,7 +20,10 @@
 
 Google Safe Browsing Lookup library for Python.
 
-If you need to check less than 10,000 URLs a day against the Google Safe Browsing v2 API (http://code.google.com/apis/safebrowsing/), you can use the Lookup API (http://code.google.com/apis/safebrowsing/lookup_guide.html) as a lighter alternative to the more complex API (http://code.google.com/apis/safebrowsing/developers_guide_v2.html).
+If you need to check less than 10,000 URLs a day against the Google Safe 
+Browsing v2 API (http://code.google.com/apis/safebrowsing/), you can use the
+Lookup API (http://code.google.com/apis/safebrowsing/lookup_guide.html) as a 
+lighter alternative to the more complex API (http://code.google.com/apis/safebrowsing/developers_guide_v2.html).
 
 You need to get an API key from Google at http://code.google.com/apis/safebrowsing/key_signup.html """
 
@@ -33,7 +36,8 @@ import httplib
 
 class SafebrowsinglookupClient(object):
     def __init__(self, key='', debug=0, error=0):
-        """ Create a new client. You must pass your Google API key (http://code.google.com/apis/safebrowsing/key_signup.html).
+        """ Create a new client. You must pass your Google API key 
+            (http://code.google.com/apis/safebrowsing/key_signup.html).
 
             Arguments:
                 key: API key.
@@ -54,10 +58,17 @@ class SafebrowsinglookupClient(object):
     def lookup(self, *urls):
         """ Lookup a list of URLs against the Google Safe Browsing v2 lists.
 
-            Returns a hash <url>: <Gooogle match>. The possible values for <Gooogle match> are: "ok" (no match), "malware", "phishing", "malware,phishing" (match both lists) and "error".
+            Returns a hash <url>: <Gooogle match>. The possible values for 
+            <Gooogle match> are: "ok" (no match), "malware", "phishing", 
+            "malware,phishing" (match both lists) and "error".
 
             Arguments:
-                urls: List of URLs to lookup. The Lookup API allows only 10,000 URL checks a day. If you need more, use the official Google Safe Browsing v2 API implementation (http://code.google.com/p/google-safe-browsing/downloads/list). Each requests must contain 500 URLs at most. The lookup() method will split the list of URLS in blocks of 500 URLs if needed.
+                urls: List of URLs to lookup. The Lookup API allows only 
+                10,000 URL checks a day. If you need more, use the official 
+                Google Safe Browsing v2 API implementation 
+                (http://code.google.com/p/google-safe-browsing/downloads/list).
+                Each requests must contain 500 URLs at most. The lookup() 
+                method will split the list of URLS in blocks of 500 URLs if needed.
         """
         results = {}
         count = 0
@@ -117,7 +128,8 @@ class SafebrowsinglookupClient(object):
 
     # Private methods
 
-    # Not much is actually done, full URL canonicalization is not required with the Lookup library according to the API documentation
+    # Not much is actually done, full URL canonicalization is not required 
+    # with the Lookup library according to the API documentation
     def __canonical(self, url=''):
         # remove leading/ending white spaces
         url = url.strip()
