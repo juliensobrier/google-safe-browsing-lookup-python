@@ -32,7 +32,7 @@ import httplib
 
 
 class SafebrowsinglookupClient(object):
-    def __init__(self, key='', debug=0, error=0):
+    def __init__(self, key='', name='python', debug=0, error=0):
         """ Create a new client. You must pass your Google API key (http://code.google.com/apis/safebrowsing/key_signup.html).
 
             Arguments:
@@ -41,6 +41,7 @@ class SafebrowsinglookupClient(object):
                 error: Set to 1 to print error output to the standard output. 0 (disabled) by default.
         """
         self.key = key
+        self.name = name
         self.debug = debug
         self.error = error
         self.last_error = ''
@@ -69,7 +70,7 @@ class SafebrowsinglookupClient(object):
                 body = str(body) + "\n" + self.__canonical(str(url))
 
             self.__debug("BODY:\n" + body + "\n\n")
-            url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&key=%s&appver=%s&pver=%s' % ('python', self.key, self.version, self.api_version)
+            url = 'https://sb-ssl.google.com/safebrowsing/api/lookup?client=%s&key=%s&appver=%s&pver=%s' % (self.name, self.key, self.version, self.api_version)
             self.__debug("URL: %s" % (url))
 
             response = ''
