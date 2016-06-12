@@ -25,7 +25,7 @@ from safebrowsinglookup import SafebrowsinglookupClient
 
 class SafebrowsinglookupClient_ParseTestCase(unittest.TestCase):
     def setUp(self):
-        self.client = SafebrowsinglookupClient('insert_API_key_here')
+        self.client = SafebrowsinglookupClient('insert_API_key_here', 'insert_client_name_here')
 
     def test_errors(self):
         client = SafebrowsinglookupClient('AAAAAAAAaaAAAaAAAaA0a0AaaAAAAAAa0AaAAAaAa0aaaAaAa0Aa0AaaaA')
